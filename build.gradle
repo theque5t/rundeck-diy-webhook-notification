@@ -1,0 +1,51 @@
+apply plugin: 'java'
+defaultTasks 'clean', 'build'
+
+ext.rundeckPluginVersion='1.2'
+ext.version='1.0.0'
+project.version=ext.version
+
+/**
+ * Set this to a comma-separated list of full classnames of your implemented Rundeck
+ * plugins.
+ */
+ext.pluginClassNames='com.github.theque5t.RundeckWebhookNotificationsPlugin.RundeckWebhookNotificationsPlugin'
+
+configurations{
+    //declare custom pluginLibs configuration to include only libs for this plugin
+    pluginLibs
+
+    //declare compile to extend from pluginLibs so it inherits the dependencies
+    compile{
+        extendsFrom pluginLibs
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.rundeck', name: 'rundeck-core', version: '2.1.1'
+}
+
+// task to copy plugin libs to output/lib dir
+task copyToLib(type: Copy) {
+    into "$buildDir/output/lib"
+    from configurations.pluginLibs
+}
+
+jar {
+    //include contents of output dir
+    from "$buildDir/output"
+    manifest {
+        def libList = configurations.pluginLibs.collect{'lib/'+it.name}.join(' ')
+        attributes 'Rundeck-Plugin-Classnames': pluginClassNames
+        attributes 'Rundeck-Plugin-File-Version': version
+        attributes 'Rundeck-Plugin-Version': rundeckPluginVersion, 'Rundeck-Plugin-Archive': 'true'
+        attributes 'Rundeck-Plugin-Libs': "${libList}"
+    }
+}
+
+//set jar task to depend on copyToLib
+jar.dependsOn(copyToLib)
