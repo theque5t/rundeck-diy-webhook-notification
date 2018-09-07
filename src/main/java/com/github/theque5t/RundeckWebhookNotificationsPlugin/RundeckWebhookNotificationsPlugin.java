@@ -52,8 +52,10 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 			out.printf("Trigger: %s \n",trigger);
 			out.printf("Execution data: %s \n",executionData);
 			out.printf("Config: %s \n",config);
-	            out.printf("Text string: %s \n",test);
-	            String result = sendMessage("https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX","application/json","{\"text\": \"Hello, world.\"}");
+			out.printf("Webhook URL string: %s \n",webhookUrl);
+			out.printf("Content Type string: %s \n",contentType);
+			out.printf("Message Body string: %s \n",messageBody);
+			String result = sendMessage(webhookUrl,contentType,messageBody);
 			out.println(result);
 		} 
 		catch (IOException e) 
