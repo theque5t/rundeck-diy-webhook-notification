@@ -9,7 +9,7 @@ project.version=ext.version
  * Set this to a comma-separated list of full classnames of your implemented Rundeck
  * plugins.
  */
-ext.pluginClassNames='com.github.theque5t.RundeckWebhookNotificationsPlugin.RundeckWebhookNotificationsPlugin'
+ext.pluginClassNames='com.github.theque5t.DIYWebhookNotificationPlugin.DIYWebhookNotificationPlugin'
 
 configurations{
     //declare custom pluginLibs configuration to include only libs for this plugin

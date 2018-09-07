@@ -1,4 +1,4 @@
-package com.github.theque5t.RundeckWebhookNotificationsPlugin;
+package com.github.theque5t.DIYWebhookNotificationPlugin;
 
 import com.dtolabs.rundeck.core.plugins.Plugin;
 import com.dtolabs.rundeck.plugins.notification.NotificationPlugin;
@@ -9,9 +9,9 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@Plugin(service="Notification",name="RundeckWebhookNotificationsPlugin")
-@PluginDescription(title="Rundeck Webhook Notifications Plugin", description="A plugin for sending Rundeck job status notifications via a Webhook.")
-public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
+@Plugin(service="Notification",name="DIYWebhookNotificationPlugin")
+@PluginDescription(title="DIY Webhook Notification Plugin", description="The DIY(do it yourself) webhook notification plugin that lets you supply your own custom messages.")
+public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 
     @PluginProperty(name = "webhookUrl",title = "Webhook URL",description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX")
     private String webhookUrl;
@@ -19,10 +19,10 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
     @PluginProperty(name = "contentType",title = "Content Type",description = "The content type header. Example: application/json")
     private String contentType;
     
-    @PluginProperty(name = "messageBody",title = "Message Body",description = "The message body. Example: {\\\"text\": \\\"Hello, world.\\\"}")
+    @PluginProperty(name = "messageBody",title = "Message Body",description = "The message body. Example: {\"text\":\"Hello world!\"}")
     private String messageBody;
     
-    public RundeckWebhookNotificationsPlugin(){
+    public DIYWebhookNotificationPlugin(){
 
     }
 
@@ -45,7 +45,7 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 	}
     
     public boolean postNotification(String trigger, Map executionData, Map config){
-    	try(FileWriter fw = new FileWriter("/tmp/RundeckWebhookNotificationsPlugin.txt", true); 
+    	try(FileWriter fw = new FileWriter("/tmp/DIYWebhookNotificationPlugin.txt", true); 
     		BufferedWriter bw = new BufferedWriter(fw);
     		PrintWriter out = new PrintWriter(bw))
 		{
