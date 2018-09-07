@@ -10,12 +10,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Plugin(service="Notification",name="RundeckWebhookNotificationsPlugin")
-@PluginDescription(title="Rundeck Webhook Notifications Plugin", description="A plugin for sending Rundeck job status notifications via Webhooks.")
+@PluginDescription(title="Rundeck Webhook Notifications Plugin", description="A plugin for sending Rundeck job status notifications via a Webhook.")
 public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 
-    @PluginProperty(name = "text",title = "text",description = "Type some text to be printed")
-    private String test;
+    @PluginProperty(name = "webhookUrl",title = "Webhook URL",description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX")
+    private String webhookUrl;
 
+    @PluginProperty(name = "contentType",title = "Content Type",description = "The content type header. Example: application/json")
+    private String contentType;
+    
+    @PluginProperty(name = "messageBody",title = "Message Body",description = "The message body. Example: {\\\"text\": \\\"Hello, world.\\\"}")
+    private String messageBody;
+    
     public RundeckWebhookNotificationsPlugin(){
 
     }
@@ -39,18 +45,18 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 		return result;
 	}
     
-    public boolean postNotification(String trigger, Map executionData, Map config){	
+    public boolean postNotification(String trigger, Map executionData, Map config){
     	
     	try(	FileWriter fw = new FileWriter("/tmp/RundeckWebhookNotificationsPlugin.txt", true); 
-    			BufferedWriter bw = new BufferedWriter(fw);
-    			PrintWriter out = new PrintWriter(bw))
-			{
-	        	out.printf("Trigger: %s \n",trigger);
-	            out.printf("Execution data: %s \n",executionData);
-	            out.printf("Config: %s \n",config);
+    		BufferedWriter bw = new BufferedWriter(fw);
+    		PrintWriter out = new PrintWriter(bw))
+		{
+			out.printf("Trigger: %s \n",trigger);
+			out.printf("Execution data: %s \n",executionData);
+			out.printf("Config: %s \n",config);
 	            out.printf("Text string: %s \n",test);
 	            String result = sendMessage("https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX","application/json","{\"text\": \"Hello, world.\"}");
-	            out.println(result);
+			out.println(result);
     		} catch (IOException e) {}
     	
         return true;
