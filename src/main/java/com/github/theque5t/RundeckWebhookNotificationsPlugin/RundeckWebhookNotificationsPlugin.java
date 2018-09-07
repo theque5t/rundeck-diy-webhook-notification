@@ -26,16 +26,16 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 
     }
 
-	private String sendMessage(String webhookUrl, String contentType, String messageBody) throws IOException {		
-		URL url = new URL(webhookUrl);
+	private String sendMessage(String endpoint, String contentTypeHeader, String content) throws IOException {
+		URL url = new URL(endpoint);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setConnectTimeout(5000);
 		connection.setReadTimeout(5000);
 		connection.setRequestMethod("POST");
-		connection.setRequestProperty("Content-type", contentType);
+		connection.setRequestProperty("Content-type", contentTypeHeader);
 		connection.setDoOutput(true);
 		DataOutputStream body = new DataOutputStream(connection.getOutputStream());
-		body.write(messageBody.getBytes("UTF-8"));
+		body.write(content.getBytes("UTF-8"));
 		body.flush();
 		body.close();
 		int responseCode = connection.getResponseCode();
