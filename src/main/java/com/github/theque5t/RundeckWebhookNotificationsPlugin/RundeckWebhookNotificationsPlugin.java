@@ -34,7 +34,6 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Content-type", contentType);
 		connection.setDoOutput(true);
-		connection.setDoInput(true);
 		DataOutputStream body = new DataOutputStream(connection.getOutputStream());
 		body.write(messageBody.getBytes("UTF-8"));
 		body.flush();
@@ -46,8 +45,7 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 	}
     
     public boolean postNotification(String trigger, Map executionData, Map config){
-    	
-    	try(	FileWriter fw = new FileWriter("/tmp/RundeckWebhookNotificationsPlugin.txt", true); 
+    	try(FileWriter fw = new FileWriter("/tmp/RundeckWebhookNotificationsPlugin.txt", true); 
     		BufferedWriter bw = new BufferedWriter(fw);
     		PrintWriter out = new PrintWriter(bw))
 		{
@@ -57,8 +55,11 @@ public class RundeckWebhookNotificationsPlugin implements NotificationPlugin{
 	            out.printf("Text string: %s \n",test);
 	            String result = sendMessage("https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX","application/json","{\"text\": \"Hello, world.\"}");
 			out.println(result);
-    		} catch (IOException e) {}
-    	
+		} 
+		catch (IOException e) 
+		{
+			System.out.printf("The exception: %s", e);
+		}
         return true;
     }
 }
