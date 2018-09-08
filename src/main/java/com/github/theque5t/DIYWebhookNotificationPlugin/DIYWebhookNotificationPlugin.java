@@ -55,6 +55,8 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			out.printf("Webhook URL string: %s \n",webhookUrl);
 			out.printf("Content Type string: %s \n",contentType);
 			out.printf("Message Body string: %s \n",messageBody);
+			// TODO: analyze the messageBody and look for references to $executionData in message body. Foreach reference, store in a variable that is named after the execution data they're trying to get. Then format a new message with the execution data replacements. So like $executionData.name would become executionDataName with the value of executionData.name. And then replaced in that position in the message body using formatting.
+			
 			String result = sendMessage(webhookUrl,contentType,messageBody);
 			out.println(result);
 		} 
