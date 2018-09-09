@@ -21,7 +21,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			title = "Webhook URL",
 			description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX",
 			required = true)
-    @PluginProperty(name = "webhookUrl",title = "Webhook URL",description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX")
+	@RenderingOption(key = DISPLAY_TYPE_KEY, value = "PASSWORD")
 	private String webhookUrl;
 	
     @PluginProperty(
