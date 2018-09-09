@@ -4,6 +4,9 @@ import com.dtolabs.rundeck.core.plugins.Plugin;
 import com.dtolabs.rundeck.plugins.notification.NotificationPlugin;
 import com.dtolabs.rundeck.plugins.descriptions.PluginDescription;
 import com.dtolabs.rundeck.plugins.descriptions.PluginProperty;
+import com.dtolabs.rundeck.plugins.descriptions.TextArea;
+import com.dtolabs.rundeck.plugins.descriptions.RenderingOption;
+import static com.dtolabs.rundeck.core.plugins.configuration.StringRenderingConstants.DISPLAY_TYPE_KEY;
 import java.util.*;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -12,20 +15,34 @@ import java.net.URL;
 @Plugin(service="Notification",name="DIYWebhookNotificationPlugin")
 @PluginDescription(title="DIY Webhook Notification Plugin", description="The DIY(do it yourself) webhook notification plugin that lets you supply your own custom messages.")
 public class DIYWebhookNotificationPlugin implements NotificationPlugin{
-
+	
+	@PluginProperty(
+			name = "webhookUrl",
+			title = "Webhook URL",
+			description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX",
+			required = true)
     @PluginProperty(name = "webhookUrl",title = "Webhook URL",description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX")
-    private String webhookUrl;
-
-    @PluginProperty(name = "contentType",title = "Content Type",description = "The content type header. Example: application/json")
+	private String webhookUrl;
+	
+    @PluginProperty(
+    		name = "contentType",
+    		title = "Content Type",
+    		description = "The content type header. Example: application/json",
+    		required = true)
     private String contentType;
     
+    @PluginProperty(
+    		name = "messageBody",
+    		title = "Message Body",
+    		description = "The message body. Example: {\"text\":\"Hello world!\"}",
+    		required = true)
     @PluginProperty(name = "messageBody",title = "Message Body",description = "The message body. Example: {\"text\":\"Hello world!\"}")
     private String messageBody;
-    
+
     public DIYWebhookNotificationPlugin(){
 
     }
-
+    
 	private String sendMessage(String endpoint, String contentTypeHeader, String content) throws IOException {
 		URL url = new URL(endpoint);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -43,7 +60,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 		String result = "The response code is: "+responseCode;
 		return result;
 	}
-    
+	    
     public boolean postNotification(String trigger, Map executionData, Map config){
     	try(FileWriter fw = new FileWriter("/tmp/DIYWebhookNotificationPlugin.txt", true); 
     		BufferedWriter bw = new BufferedWriter(fw);
