@@ -36,7 +36,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
     		title = "Message Body",
     		description = "The message body. Example: {\"text\":\"Hello world!\"}",
     		required = true)
-    @PluginProperty(name = "messageBody",title = "Message Body",description = "The message body. Example: {\"text\":\"Hello world!\"}")
+    @TextArea
     private String messageBody;
 
     public DIYWebhookNotificationPlugin(){
@@ -74,8 +74,15 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			out.printf("Message Body string: %s \n",messageBody);
 			// TODO: analyze the messageBody and look for references to $executionData in message body. Foreach reference, store in a variable that is named after the execution data they're trying to get. Then format a new message with the execution data replacements. So like $executionData.name would become executionDataName with the value of executionData.name. And then replaced in that position in the message body using formatting.
 			
-			String result = sendMessage(webhookUrl,contentType,messageBody);
-			out.println(result);
+			out.printf("Execution data type is : %s \n", executionData.getClass().getName());
+			out.printf("Config data type is : %s \n", config.getClass().getName());
+			
+			out.printf("Execution data job is: %s \n", executionData.get("job"));
+			Map job = (Map) executionData.get("job");
+			out.printf("Execution data job name is %s \n", job.get("name"));
+			out.printf("Config $something. message body is: %s \n", config.get("messageBody"));
+			//String result = sendMessage(webhookUrl,contentType,messageBody);
+			//out.println(result);
 		} 
 		catch (IOException e) 
 		{
