@@ -43,6 +43,71 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 
     }
     
+	private static String formatMessage(String theMessage, Map data) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		
+		Pattern pattern = Pattern.compile("(\\$)(.*?)(\\$)");
+        Matcher matcher = pattern.matcher(theMessage);
+        StringBuffer buffer = new StringBuffer(theMessage.length());
+        while(matcher.find())
+        {
+        	String mapName = matcher.group(2).substring(0, matcher.group(2).indexOf("."));
+        	String keyName = matcher.group(2).substring(matcher.group(2).indexOf(".")+1, matcher.group(2).length());
+        	        	
+        	Map theMap = null;
+        	boolean processMap = true;
+        	if(mapName.equals("execution"))
+        	{
+        		theMap = (Map) data;
+        	} 
+        	else if(mapName.equals("job")) 
+        	{
+        		theMap = (Map) data.get("job");
+        	} 
+        	else if(mapName.equals("nodeStatus")) 
+        	{
+        		theMap = (Map) data.get("nodestatus");        		
+        	} 
+        	else if(mapName.equals("globalContext")) 
+        	{
+        		Map theContext = (Map) data.get("context");
+        		theMap = (Map) theContext.get("globals");
+        	} 
+        	else if (mapName.equals("jobContext")) 
+        	{
+        		Map theContext = (Map) data.get("context");
+        		theMap = (Map) theContext.get("job");        		
+        	} 
+        	else if (mapName.equals("jobOption")) 
+        	{
+        		Map theContext = (Map) data.get("context");
+        		theMap = (Map) theContext.get("option");
+        	} 
+        	else 
+        	{
+        		System.out.println(mapName+" is not a valid map");
+        	}
+        	
+        	
+        	String theValue = null;
+        	if (processMap) 
+        	{
+        		if (theMap.containsKey(keyName)) 
+        		{
+            		theValue = (String) theMap.get(keyName);        			
+        		} 
+        		else 
+        		{
+        			System.out.println(keyName+" is not a valid key for map "+mapName);
+        		}
+        	}
+        	
+        	matcher.appendReplacement(buffer, theValue);        	
+        }
+        matcher.appendTail(buffer);
+        String theNewMessage = buffer.toString();
+        return theNewMessage;
+	}
+    
 	private String sendMessage(String endpoint, String contentTypeHeader, String content) throws IOException {
 		URL url = new URL(endpoint);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
