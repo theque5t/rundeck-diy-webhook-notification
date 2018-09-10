@@ -34,7 +34,20 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
     @PluginProperty(
     		name = "messageBody",
     		title = "Message Body",
-    		description = "The message body. Example: {\"text\":\"Hello world!\"}",
+    		description = "The message body. Example: {\"text\":\"Hello world!\"}  \n"
+    					+ "You can add execution data to your message following this syntax: `$<map>.<key>$`  \n"
+    					+ "Example: `{\"text\":\"Job $job.name$ has $execution.status$\"}`  \n"
+    					+ "Valid map values are:\n"
+    					+ " - `execution`\n"
+    					+ " - `job`\n"
+    					+ " - `nodeStatus`\n"
+    					+ " - `globalContext`\n"
+    					+ " - `jobContext`\n"
+    					+ " - `jobOption`\n"
+    					+ "  \n"
+    					+ "Valid key values are:\n"
+    					+ " - execution, job, and nodeStatus keys: see [https://rundeck.org/docs/developer/notification-plugin.html](https://rundeck.org/docs/developer/notification-plugin.html)\n"
+    					+ " - globalContext, jobContext, and jobOption keys: see [https://rundeck.org/docs/manual/creating-job-workflows.html#context-variables](https://rundeck.org/docs/manual/creating-job-workflows.html#context-variables)\n",
     		required = true)
     @TextArea
     private String messageBody;
