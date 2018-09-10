@@ -155,10 +155,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			out.printf("Execution data type is : %s \n", executionData.getClass().getName());
 			out.printf("Config data type is : %s \n", config.getClass().getName());
 			
-			out.printf("Execution data job is: %s \n", executionData.get("job"));
-			Map job = (Map) executionData.get("job");
-			out.printf("Execution data job name is %s \n", job.get("name"));
-			out.printf("Config $something. message body is: %s \n", config.get("messageBody"));
+			String formattedMessage = formatMessage(messageBody,executionData);
 			//String result = sendMessage(webhookUrl,contentType,messageBody);
 			//out.println(result);
 		} 
