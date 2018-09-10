@@ -8,6 +8,8 @@ import com.dtolabs.rundeck.plugins.descriptions.TextArea;
 import com.dtolabs.rundeck.plugins.descriptions.RenderingOption;
 import static com.dtolabs.rundeck.core.plugins.configuration.StringRenderingConstants.DISPLAY_TYPE_KEY;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -48,14 +50,14 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
     					+ "Valid key values are:\n"
     					+ " - execution, job, and nodeStatus keys: see [https://rundeck.org/docs/developer/notification-plugin.html](https://rundeck.org/docs/developer/notification-plugin.html)\n"
     					+ " - globalContext, jobContext, and jobOption keys: see [https://rundeck.org/docs/manual/creating-job-workflows.html#context-variables](https://rundeck.org/docs/manual/creating-job-workflows.html#context-variables)\n",
-    		required = true)
+			required = true)
     @TextArea
     private String messageBody;
 
     public DIYWebhookNotificationPlugin(){
 
     }
-    
+
 	private static String formatMessage(String theMessage, Map data) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		
 		Pattern pattern = Pattern.compile("(\\$)(.*?)(\\$)");
@@ -150,7 +152,6 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			out.printf("Webhook URL string: %s \n",webhookUrl);
 			out.printf("Content Type string: %s \n",contentType);
 			out.printf("Message Body string: %s \n",messageBody);
-			// TODO: analyze the messageBody and look for references to $executionData in message body. Foreach reference, store in a variable that is named after the execution data they're trying to get. Then format a new message with the execution data replacements. So like $executionData.name would become executionDataName with the value of executionData.name. And then replaced in that position in the message body using formatting.
 			
 			out.printf("Execution data type is : %s \n", executionData.getClass().getName());
 			out.printf("Config data type is : %s \n", config.getClass().getName());
@@ -159,7 +160,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			//String result = sendMessage(webhookUrl,contentType,messageBody);
 			//out.println(result);
 		} 
-		catch (IOException e) 
+		catch (IOException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) 
 		{
 			System.out.printf("The exception: %s", e);
 		}
