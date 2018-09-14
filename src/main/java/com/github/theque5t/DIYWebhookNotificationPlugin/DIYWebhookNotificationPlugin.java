@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 @Plugin(service="Notification",name="DIYWebhookNotificationPlugin")
@@ -58,7 +60,13 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 
     }
 
-	private static String formatMessage(String theMessage, Map data) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public class CustomMessageException extends Exception {
+  	  public CustomMessageException(String message){
+  		     super(message);
+  	  }
+  	}
+    
+	private String formatMessage(String theMessage, Map data) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, CustomMessageException {
 		
 		Pattern pattern = Pattern.compile("(\\$)(.*?)(\\$)");
         Matcher matcher = pattern.matcher(theMessage);
@@ -99,7 +107,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
         	} 
         	else 
         	{
-        		System.out.println(mapName+" is not a valid map");
+        		throw new CustomMessageException(mapName+" is not a valid map");
         	}
         	
         	
@@ -112,7 +120,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
         		} 
         		else 
         		{
-        			System.out.println(keyName+" is not a valid key for map "+mapName);
+        			throw new CustomMessageException(keyName+" is not a valid key for map "+mapName);
         		}
         	}
         	
@@ -123,7 +131,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
         return theNewMessage;
 	}
     
-	private String sendMessage(String endpoint, String contentTypeHeader, String content) throws IOException {
+	private String sendMessage(String endpoint, String contentTypeHeader, String content) throws IOException, CustomMessageException {
 		URL url = new URL(endpoint);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setConnectTimeout(5000);
@@ -138,31 +146,40 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 		int responseCode = connection.getResponseCode();
 		connection.disconnect();
 		String result = "The response code is: "+responseCode;
+		
+		if(responseCode != 200)
+		{
+			throw new CustomMessageException(result);
+		}
+		
 		return result;
 	}
 	    
     public boolean postNotification(String trigger, Map executionData, Map config){
-    	try(FileWriter fw = new FileWriter("/tmp/DIYWebhookNotificationPlugin.txt", true); 
-    		BufferedWriter bw = new BufferedWriter(fw);
-    		PrintWriter out = new PrintWriter(bw))
+    	String formattedMessage = null;
+    	String result = null;
+    	try
+    	{
+    		formattedMessage = formatMessage(messageBody,executionData);	
+			result = sendMessage(webhookUrl,contentType,formattedMessage);
+    	}
+		catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException | CustomMessageException | IOException e)
 		{
-			out.printf("Trigger: %s \n",trigger);
-			out.printf("Execution data: %s \n",executionData);
-			out.printf("Config: %s \n",config);
-			out.printf("Webhook URL string: %s \n",webhookUrl);
-			out.printf("Content Type string: %s \n",contentType);
-			out.printf("Message Body string: %s \n",messageBody);
-			
-			out.printf("Execution data type is : %s \n", executionData.getClass().getName());
-			out.printf("Config data type is : %s \n", config.getClass().getName());
-			
-			String formattedMessage = formatMessage(messageBody,executionData);
-			//String result = sendMessage(webhookUrl,contentType,messageBody);
-			//out.println(result);
-		} 
-		catch (IOException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) 
-		{
-			System.out.printf("The exception: %s", e);
+			Map<String, Object> pluginData = new HashMap();
+    		pluginData.put("trigger", trigger);
+    		pluginData.put("executionData", executionData);
+    		pluginData.put("config", config);
+    		pluginData.put("webhookUrl", webhookUrl);
+    		pluginData.put("contentType", contentType);
+    		pluginData.put("messageBody", messageBody);
+    		pluginData.put("formattedMessage", formattedMessage);
+    		pluginData.put("result", result);
+    		for (Map.Entry<String, Object> entry : pluginData.entrySet())
+    		{
+    		    System.err.println("Name:  '" + entry.getKey() + "'");
+    		    System.err.println("Value: '" + entry.getValue() + "'");
+    		}
+			e.printStackTrace();
 		}
         return true;
     }
