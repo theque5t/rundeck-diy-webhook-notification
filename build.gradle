@@ -47,6 +47,19 @@ dependencies {
 	)
 }
 
+task copyToOutput(type: Copy){
+    into "$buildDir/output"
+    from "LICENSE"
+}
+
+// task to copy licenses to output/dependency-license dir
+task copyToLicenses(type: Copy) {
+    into "$buildDir/output"
+    from("$buildDir/reports"){
+        include "dependency-license/**"
+    }
+}
+
 // task to copy plugin libs to output/lib dir
 task copyToLib(type: Copy) {
     into "$buildDir/output/lib"
@@ -69,6 +82,8 @@ jar {
     }
 }
 
-//set jar task to depend on copyToLib
+//set task dependencies
+copyToOutput.dependsOn(generateLicenseReport)
+copyToLicenses.dependsOn(copyToOutput)
+copyToLib.dependsOn(copyToLicenses)
 jar.dependsOn(copyToLib)
-jar.dependsOn(generateLicenseReport)
