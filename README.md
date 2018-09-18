@@ -32,6 +32,8 @@ mv rundeck-diy-webhook-notification-1.0.0.jar /var/lib/rundeck/libext
  - __Message Body:__ The message body. Example: `{"text":"Hello world!"}`  
  configure project: `project.plugin.Notification.DIYWebhookNotificationPlugin.messageBody=value`  
  configure framework: `framework.plugin.Notification.DIYWebhookNotificationPlugin.messageBody=value`  
+ 
+ >![picture](docs/images/configuration.png)
  ___
 ### Building the Message
 The execution order and summary of what occurs when building the final message body is as follows: 
