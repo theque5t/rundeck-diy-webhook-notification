@@ -126,12 +126,12 @@ __Message Body:__
             "value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}",
             "short":true
           }{% assign optionMap = "$execution.context.option$" %}{% if optionMap == '{}' %}{% else %},
-		      {
+          {
             "title":"Options",
             "value":"{% assign lengthMinusTwo = optionMap | size | minus: 2 %}{% assign options = optionMap | slice: 1, lengthMinusTwo %}{% assign options = options | split: ", " | reverse %}{% for option in options %} •  {{ option | replace_first: '=', ': `' }}`\n{% endfor %}",
             "short":true
           }
-		  {% endif %}
+          {% endif %}
         ]
       }
     ]
