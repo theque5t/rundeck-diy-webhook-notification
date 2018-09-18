@@ -2,6 +2,7 @@
 .settings
 .classpath
 .project
+.vscode
 bin/
 build/classes
 build/tmp
