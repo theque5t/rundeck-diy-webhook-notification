@@ -41,7 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Plugin(service="Notification",name="DIYWebhookNotificationPlugin")
-@PluginDescription(title="DIY Webhook Notification Plugin", description="The DIY(do it yourself) webhook notification plugin that lets you supply your own custom messages.\n___\nProject lives [here](https://github.com/theque5t/rundeck-diy-webhook-notification)\n___\n")
+@PluginDescription(title="DIY Webhook", description="The DIY(do it yourself) webhook notification plugin that lets you supply your own custom messages.\n___\nProject lives [here](https://github.com/theque5t/rundeck-diy-webhook-notification)\n___\n")
 public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 	
 	@PluginProperty(
