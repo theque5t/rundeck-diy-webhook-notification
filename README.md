@@ -140,7 +140,7 @@ __Message Body:__
 ```
 __Linking to the Slack user:__ `"value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}"` from the above example is template markup that replaces the Rundeck user value with the correlating Slack member ID. The Slack member ID can be found on their Slack profile. This shows how you can link the job notifications to the Rundeck user's Slack account.  
   
-![](/docs/images/slack.png)
+![picture](docs/images/slack.png)
 ___
 ## Acknowledgements
 
