@@ -43,7 +43,7 @@ ___
 You can add [embedded property references](https://rundeck.org/docs/developer/notification-plugin.html) to your message following this syntax: `${group.key}`
 
 Example for "On Start": 
-```json
+```
 {"text":"Job ${job.name}(#${job.execid}): Started"}
 ```
 ###### `${job.name}` and `${job.execid}` from the above example are embedded property references
@@ -52,22 +52,22 @@ ___
 You can add [execution data references](https://rundeck.org/docs/developer/notification-plugin.html) to your message following this syntax: `$map.key$`
 
 Examples:
-```json
+```
 {"text":"Job ${job.name}(#${job.execid}): $execution.status$"}
 ```
 ###### `$execution.status$` from the above example is an execution data reference
-```json
+```
 {"text":"Job ${job.name}(#$execution.id$): $execution.status$"}
 ```
 ###### `$execution.id$` and `$execution.status$` from the above example are execution data references
-```json
+```
 {"text":"Job ${job.name}(#${job.execid}) from Group $execution.context.job.group$: $execution.status$"}
 ```
 ###### `$execution.context.job.group$` and `$execution.status$` from the above example are execution data references
 
 [Refer here](https://rundeck.org/docs/developer/notification-plugin.html#execution-data) and [here](https://rundeck.org/docs/manual/creating-job-workflows.html#context-variables) to see what data is available.
 You can also supply a reference that equals an entire map. For example:
-```javascript
+```
 {"text":"Job: ${job.name}
 Id: $execution.job.id$
 Status: $execution.status$
@@ -80,7 +80,7 @@ ___
 You can add template markup following [the template language](https://shopify.github.io/liquid/) syntax.
 
 Example:
-```json
+```
 {"text":"Job ${job.name}(#${job.execid}): {{ "$execution.status$" | capitalize }}"}
 ```
 ###### `{{ "$execution.status$" | capitalize }}` from the above example is template markup
@@ -95,7 +95,7 @@ __Webhook URL:__ `https://hooks.slack.com/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXX
 __Content Type:__ `application/json` 
 
 __Message Body:__
-```json
+```
 {
         "username": "Rundeck",
         "icon_url": "https://github.com/theque5t/rundeck-diy-webhook-notification/raw/master/docs/images/rundeck.png",
@@ -140,7 +140,7 @@ __Message Body:__
 ```
 __Linking to the Slack user:__ `"value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}"` from the above example is template markup that replaces the Rundeck user value with the correlating Slack member ID. The Slack member ID can be found on their Slack profile. This shows how you can link the job notifications to the Rundeck user's Slack account.  
   
-![](docs/images/slack.png)
+![](/docs/images/slack.png)
 ___
 ## Acknowledgements
 
