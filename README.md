@@ -88,8 +88,60 @@ Example:
 
 Refer to the [documentation for designers](https://github.com/Shopify/liquid/wiki/Liquid-for-Designers) for further assistance with the template language.
 ___
+### Slack Example
 
+__Webhook URL:__ `https://hooks.slack.com/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX` 
 
+__Content Type:__ `application/json` 
+
+__Message Body:__
+```json
+{
+        "username": "Rundeck",
+        "icon_url": "https://github.com/theque5t/rundeck-diy-webhook-notification/raw/master/docs/images/rundeck.png",
+        "channel": "#test",
+        "attachments": [
+          {
+            "fallback":"*$execution.job.name$* (<$execution.href$|#$execution.id$>) {% assign status = "$execution.status$" | capitalize | prepend: "*" | append: "*" %}{% if status == '*Running*' %}{{ status | append: " :warning:" }}{% elsif status == '*Succeeded*' %}{{ status | append: " :heavy_check_mark:" }}{% else %}{{ status | append: " :heavy_multiplication_x:" }}{% endif %}",
+			"pretext":"*$execution.job.name$* (<$execution.href$|#$execution.id$>) {% assign status = "$execution.status$" | capitalize | prepend: "*" | append: "*" %}{% if status == '*Running*' %}{{ status | append: " :warning:" }}{% elsif status == '*Succeeded*' %}{{ status | append: " :heavy_check_mark:" }}{% else %}{{ status | append: " :heavy_multiplication_x:" }}{% endif %}",
+            "color":"{% if status == '*Running*' %}warning{% elsif status == '*Succeeded*' %}good{% else %}danger{% endif %}",
+            "fields":[
+          {
+            "title":"Job Name",
+            "value":"<$execution.job.href$|$execution.job.name$>",
+            "short":true
+          },
+          {
+            "title":"Project",
+            "value":"$job.project$",
+            "short":true
+          },
+          {
+            "title":"Execution ID",
+            "value":"<$execution.href$|#$execution.id$>",
+            "short":true
+          },
+          {
+            "title":"Started By",
+            "value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}",
+            "short":true
+          }
+		  {% assign optionMap = "$execution.context.option$" %}{% if optionMap == '{}' %}{% else %},
+		  {
+            "title":"Options",
+            "value":"{% assign lengthMinusTwo = optionMap | size | minus: 2 %}{% assign options = optionMap | slice: 1, lengthMinusTwo %}{% assign options = options | split: ", " | reverse %}{% for option in options %} •  {{ option | replace_first: '=', ': `' }}`\n{% endfor %}",
+            "short":true
+          }
+		  {% endif %}
+        ]
+      }
+    ]
+}
+```
+__Linking to the Slack user:__ `"value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}"` from the above example is template markup that replaces the Rundeck user value with the correlating Slack member ID. The Slack member ID can be found on their Slack profile. This shows how you can link the job notifications to the Rundeck user's Slack account.  
+  
+![](docs/images/slack.png)
+___
 ## Acknowledgements
 
 rundeck-diy-webhook-notification makes use of the open source projects listed on the [index.html](build/reports/dependency-license/index.html) in the build/reports/dependency-license directory. [Click here](build/reports/dependency-license/index.html) to be automatically redirected to the index.html.
