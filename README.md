@@ -103,7 +103,7 @@ __Message Body:__
         "attachments": [
           {
             "fallback":"*$execution.job.name$* (<$execution.href$|#$execution.id$>) {% assign status = "$execution.status$" | capitalize | prepend: "*" | append: "*" %}{% if status == '*Running*' %}{{ status | append: " :warning:" }}{% elsif status == '*Succeeded*' %}{{ status | append: " :heavy_check_mark:" }}{% else %}{{ status | append: " :heavy_multiplication_x:" }}{% endif %}",
-			"pretext":"*$execution.job.name$* (<$execution.href$|#$execution.id$>) {% assign status = "$execution.status$" | capitalize | prepend: "*" | append: "*" %}{% if status == '*Running*' %}{{ status | append: " :warning:" }}{% elsif status == '*Succeeded*' %}{{ status | append: " :heavy_check_mark:" }}{% else %}{{ status | append: " :heavy_multiplication_x:" }}{% endif %}",
+            "pretext":"*$execution.job.name$* (<$execution.href$|#$execution.id$>) {% assign status = "$execution.status$" | capitalize | prepend: "*" | append: "*" %}{% if status == '*Running*' %}{{ status | append: " :warning:" }}{% elsif status == '*Succeeded*' %}{{ status | append: " :heavy_check_mark:" }}{% else %}{{ status | append: " :heavy_multiplication_x:" }}{% endif %}",
             "color":"{% if status == '*Running*' %}warning{% elsif status == '*Succeeded*' %}good{% else %}danger{% endif %}",
             "fields":[
           {
@@ -125,9 +125,8 @@ __Message Body:__
             "title":"Started By",
             "value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}",
             "short":true
-          }
-		  {% assign optionMap = "$execution.context.option$" %}{% if optionMap == '{}' %}{% else %},
-		  {
+          }{% assign optionMap = "$execution.context.option$" %}{% if optionMap == '{}' %}{% else %},
+		      {
             "title":"Options",
             "value":"{% assign lengthMinusTwo = optionMap | size | minus: 2 %}{% assign options = optionMap | slice: 1, lengthMinusTwo %}{% assign options = options | split: ", " | reverse %}{% for option in options %} •  {{ option | replace_first: '=', ': `' }}`\n{% endfor %}",
             "short":true
