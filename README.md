@@ -145,4 +145,4 @@ __Linking to the Slack user:__ `"value":"{% assign user = "$execution.user$" %}{
 ___
 ## Acknowledgements
 
-rundeck-diy-webhook-notification makes use of the open source projects listed on the [index.html](build/reports/dependency-license/index.html) in the build/reports/dependency-license directory. [Click here](build/reports/dependency-license/index.html) to be automatically redirected to the index.html.
+rundeck-diy-webhook-notification makes use of the open source projects listed on the [index.md](build/reports/dependency-license/index.md) in the build/reports/dependency-license directory. [Click here](build/reports/dependency-license/index.md) to be automatically redirected to the [index.md](build/reports/dependency-license/index.md).
