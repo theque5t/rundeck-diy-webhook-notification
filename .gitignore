@@ -4,7 +4,7 @@
 .project
 .vscode
 bin/
-build/classes
-build/libs
-build/tmp
-build/output
+build/classes/
+build/libs/
+build/tmp/
+build/output/
