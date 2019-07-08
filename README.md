@@ -127,7 +127,7 @@ __Message Body:__
           },
           {
             "title":"Started By",
-            "value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@UC08WJC3Y>{% else %}{{ user }}{% endif %}",
+            "value":"{% assign user = "$execution.user$" %}{% if user == 'admin' %}<@XX00XXX0X>{% else %}{{ user }}{% endif %}",
             "short":true
           }{% assign optionMap = "$execution.context.option$" %}{% if optionMap == '{}' %}{% else %},
           {
