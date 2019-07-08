@@ -1,0 +1,22 @@
+---
+language: java
+install: true
+jdk:
+  - oraclejdk8
+env:
+  global:
+    - NAME=rundeck-diy-webhook-notification
+    
+script:
+  - gradle clean build -PprojectVersion="${TRAVIS_TAG}"
+deploy:
+  provider: releases
+  api_key:
+    secure: d5BlW2TCzzBiCNKX196XvGZCq+akpkloeQT6Z2uAPKnwdL2MRvwhDh996q+bhHPUv/Ha6N1olul0Ihj88WH52/7Ze4MDRF5CRyyIDk74UTRgCyvCV5UUjqnfsqnqgpfUkZQ8bK0lWgYvcaiUakYdpmG1FdlGdQF22EkhEzPoPqFQQqHj25wSs6WLsfQCx/2rZrMEKa/8718sRBUuooOneJG9dLAfCOJJytr6bSy78ymwJiGzJEimo0GWcGHFj5i+kAWc/JVExUpyzJ93p9EpMRSfJ7BQ9skHwsWQOQC4CeQrKhOlSEGpYybWfm7X2qIlelrCKHxtb0iRP6xdl91yL4OIOTwijVSP3hC5d7Fp2FUVjetPGHVskI8cscd9h8WjLOaff/kDdzYq0kWv21grI0DRQhIuVMM4qZ5TA9kOXvIOmSvEA/WJufn4PMsYHmx+b2WkOKpFZPqI0SW7WI+JF96CCpB2eUeUEGRdvYnnj9rDFziSSQyGhszCc7yZkhIp9drL2fJkR+kWoroBVgbte1FCOLfNLJuNE0qPMaokmthyHWDmQzeo+zfMPNykDJFCgFy5LMs+9gvS88v2e4yprWpVvQWSidUgNbK32DPb5PJmGbXRBdhZ20VOB1WJhPkZw2maXOJpw/B7GpFCXznutitraYvC86+MeHSbIk2Jp9w=
+  file_glob: true
+  file: 
+    - build/libs/*
+  skip_cleanup: true
+  on:
+    repo: theque5t/rundeck-diy-webhook-notification
+    tags: true

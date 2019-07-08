@@ -1,5 +1,7 @@
 # rundeck-diy-webhook-notification
 
+ [![Build Status](https://travis-ci.org/theque5t/rundeck-diy-webhook-notification.svg?branch=master)](https://travis-ci.org/theque5t/rundeck-diy-webhook-notification)
+
 [Rundeck](https://www.rundeck.com/) [notification plugin](https://rundeck.org/docs/developer/notification-plugin.html) for the DIYer, because it allows you to supply your own custom messages to be sent to a webhook.
 
 ## Installation
