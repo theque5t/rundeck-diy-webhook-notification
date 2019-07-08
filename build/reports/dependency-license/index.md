@@ -1,6 +1,6 @@
 Dependency License Report for rundeck-diy-webhook-notification
 
-# Dependency License Report for rundeck-diy-webhook-notification 1.0.0 #
+# Dependency License Report for rundeck-diy-webhook-notification 1.0.1 #
 
 --------------------
 
@@ -378,7 +378,7 @@ Dependency License Report for rundeck-diy-webhook-notification
 
 --------------------
 
-This report was generated at *Wed Sep 19 09:30:36 CDT 2018*.
+This report was generated at *Mon Jul 08 14:36:11 CDT 2019*.
 
 
 [http_www.apache.org_licenses_LICENSE-2.0.txt]: http://www.apache.org/licenses/LICENSE-2.0.txt
