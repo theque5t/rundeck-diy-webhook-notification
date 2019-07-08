@@ -6,13 +6,16 @@ buildscript {
 
     dependencies {
         classpath 'gradle.plugin.com.github.jk1:gradle-license-report:1.2',
-                  'org.kordamp:markdown-gradle-plugin:1.1.0'
+                  'org.kordamp:markdown-gradle-plugin:1.1.0',
+                  'gradle.plugin.org.gradle.crypto:checksum:1.1.0'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'com.github.jk1.dependency-license-report'
 apply plugin: 'org.kordamp.markdown.convert'
+apply plugin: 'org.gradle.crypto.checksum'
+import org.gradle.crypto.checksum.Checksum
 
 defaultTasks 'clean', 'build'
 
@@ -23,7 +26,7 @@ ext.rundeckPluginClassnames='com.github.theque5t.DIYWebhookNotificationPlugin.DI
 ext.rundeckPluginAuthor='Trevor Highfill'
 ext.rundeckPluginURL='https://github.com/theque5t/rundeck-diy-webhook-notification'
 ext.rundeckPluginDate=new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-ext.rundeckPluginFileVersion='1.0.0'
+ext.rundeckPluginFileVersion = hasProperty('projectVersion') && projectVersion != "" ? projectVersion : 'SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
 project.version=ext.rundeckPluginFileVersion
 
 configurations{
@@ -97,6 +100,12 @@ jar {
     }
 }
 
+task createChecksum(type: Checksum) {
+  files = jar.outputs.files
+  outputDir = new File("${project.buildDir}/libs")
+  algorithm = Checksum.Algorithm.SHA256
+}
+
 //set task dependencies
 copyIndexHtml.dependsOn(generateLicenseReport)
 htmlToMarkdown.dependsOn(copyIndexHtml)
@@ -105,3 +114,5 @@ deleteIndexHtml.dependsOn(copyToOutput)
 copyIndexMarkdown.dependsOn(deleteIndexHtml)
 copyToLib.dependsOn(copyIndexMarkdown)
 jar.dependsOn(copyToLib)
+createChecksum.dependsOn(jar)
+build.dependsOn(createChecksum)
