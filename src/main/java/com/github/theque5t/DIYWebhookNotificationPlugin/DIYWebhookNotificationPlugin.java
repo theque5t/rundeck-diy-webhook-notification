@@ -48,7 +48,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
 			name = "webhookUrl",
 			title = "Webhook URL",
 			description = "The webhook url. Example: https://hostname/services/TXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX",
-			required = true)
+			required = false)
 	@RenderingOption(key = DISPLAY_TYPE_KEY, value = "PASSWORD")
 	private String webhookUrl;
 	
@@ -56,7 +56,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
     		name = "contentType",
     		title = "Content Type",
     		description = "The content type header. Example: application/json",
-    		required = true)
+    		required = false)
     private String contentType;
     
     @PluginProperty(
@@ -97,7 +97,7 @@ public class DIYWebhookNotificationPlugin implements NotificationPlugin{
     					+ "  \n"
     					+ "Refer to the [documentation for designers](https://github.com/Shopify/liquid/wiki/Liquid-for-Designers) for further assistance with the template language.  \n"
     					+ "___  \n",
-			required = true)
+			required = false)
     @TextArea
     private String messageBody;
 
