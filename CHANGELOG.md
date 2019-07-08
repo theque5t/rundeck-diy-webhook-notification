@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2019-07-08
+### Changed
+- Updated dependency report
+- Updated release links in README.
+- Plugin properties required set to false.
+
+### Fixed
+- Fix release link in README.
+
 ## [1.0.0] - 2018-09-19
 ### Added
 - Initial version
