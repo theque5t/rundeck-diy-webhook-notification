@@ -26,7 +26,7 @@ ext.rundeckPluginClassnames='com.github.theque5t.DIYWebhookNotificationPlugin.DI
 ext.rundeckPluginAuthor='Trevor Highfill'
 ext.rundeckPluginURL='https://github.com/theque5t/rundeck-diy-webhook-notification'
 ext.rundeckPluginDate=new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-ext.rundeckPluginFileVersion = hasProperty('projectVersion') && projectVersion != "" ? projectVersion : 'SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
+ext.rundeckPluginFileVersion = hasProperty('projectVersion') && projectVersion != "" ? projectVersion.replaceAll(/v(\d+\.\d+\.\d+)/,'$1') : 'SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
 project.version=ext.rundeckPluginFileVersion
 
 configurations{
