@@ -17,7 +17,6 @@ deploy:
   file: 
     - build/libs/*
   skip_cleanup: true
-  draft: true
   on:
     repo: theque5t/rundeck-diy-webhook-notification
     tags: true
