@@ -6,16 +6,16 @@
 
 ## Installation
 
-1. Download the [plugin file](https://github.com/theque5t/rundeck-diy-webhook-notification/releases/download/v1.0.0/rundeck-diy-webhook-notification-1.0.0.jar)
+1. Download the [plugin file](https://github.com/theque5t/rundeck-diy-webhook-notification/releases/download/v1.0.1/rundeck-diy-webhook-notification-1.0.1.jar)
 
 ```sh
-wget "https://github.com/theque5t/rundeck-diy-webhook-notification/releases/download/v1.0.0/rundeck-diy-webhook-notification-1.0.0.jar"
+wget "https://github.com/theque5t/rundeck-diy-webhook-notification/releases/download/v1.0.1/rundeck-diy-webhook-notification-1.0.1.jar"
 ```
 
-2. Put the plugin file, rundeck-diy-webhook-notification-1.0.0.jar, into the [plugin directory](https://rundeck.org/docs/developer/plugin-development.html)
+2. Put the plugin file, rundeck-diy-webhook-notification-1.0.1.jar, into the [plugin directory](https://rundeck.org/docs/developer/plugin-development.html)
 
 ```sh
-mv rundeck-diy-webhook-notification-1.0.0.jar /var/lib/rundeck/libext
+mv rundeck-diy-webhook-notification-1.0.1.jar /var/lib/rundeck/libext
 ```
 
 3. The plugin is now ready for use
